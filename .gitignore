@@ -1,0 +1,27 @@
+# .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+TestResults/
+[Dd]ebug/
+[Rr]elease/
+*.nupkg
+*.snupkg
+artifacts/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Python
+__pycache__/

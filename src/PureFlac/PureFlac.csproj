@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <RootNamespace>PureFlac</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsTrimmable>true</IsTrimmable>
+    <IsAotCompatible>true</IsAotCompatible>
+    <Deterministic>true</Deterministic>
+    <!-- Published packages are built only by GitHub Actions; this normalizes source paths there. Local builds are unaffected. -->
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>PureFlac</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>JohnShu</Authors>
+    <Description>A pure managed, streaming FLAC decoder for .NET, ported from dr_flac. Reads forward-only from any Stream, never seeks, and produces bit-exact PCM verified against libFLAC.</Description>
+    <PackageTags>flac;audio;decoder;pcm;streaming</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/FatJohn/PureFlac</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/FatJohn/PureFlac</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Copyright>Copyright (c) 2026 JohnShu</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="PureFlac.Tests" />
+  </ItemGroup>
+
+</Project>
