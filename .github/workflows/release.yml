@@ -1,0 +1,63 @@
+name: Release
+
+# Publishes the PureFlac package to nuget.org when a version tag (for example v0.1.0) is pushed.
+# Authentication uses nuget.org Trusted Publishing: the job exchanges a short-lived GitHub OIDC token
+# for a temporary nuget.org API key, so no long-lived API key is stored in this repository.
+# The nuget.org Trusted Publishing policy must name this repository and this workflow file (release.yml).
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for the OIDC token used by NuGet/login
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Resolve version from tag
+        id: version
+        shell: bash
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Tag '$tag' is not a semantic version tag like v1.2.3 or v1.2.3-beta.1"
+            exit 1
+          fi
+          echo "value=${tag#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        shell: bash
+        run: dotnet build PureFlac.slnx -c Release -p:Version="${{ steps.version.outputs.value }}"
+
+      - name: Test (net8.0 and net10.0)
+        shell: bash
+        run: dotnet test PureFlac.slnx -c Release --no-build
+
+      - name: Pack
+        shell: bash
+        run: dotnet pack src/PureFlac/PureFlac.csproj -c Release --no-build -o artifacts -p:Version="${{ steps.version.outputs.value }}"
+
+      # Request the temporary API key right before pushing: it is valid for one hour.
+      - name: NuGet login (OIDC to temporary API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push to nuget.org
+        shell: bash
+        run: dotnet nuget push "artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
