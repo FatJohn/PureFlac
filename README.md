@@ -1,5 +1,8 @@
 # PureFlac
 
+[![NuGet](https://img.shields.io/nuget/v/PureFlac.svg)](https://www.nuget.org/packages/PureFlac)
+[![NuGet downloads](https://img.shields.io/nuget/dt/PureFlac.svg)](https://www.nuget.org/packages/PureFlac)
+
 A pure managed, streaming FLAC decoder for .NET, ported from [dr_flac](https://github.com/mackron/dr_libs).
 
 PureFlac decodes FLAC from any readable `Stream` — including network streams and pipes that cannot seek and
@@ -21,7 +24,13 @@ stream.
 
 ## Installation
 
-PureFlac is not published on NuGet yet. Build it from source:
+Install from [NuGet](https://www.nuget.org/packages/PureFlac):
+
+```sh
+dotnet add package PureFlac
+```
+
+Or build it from source:
 
 ```sh
 git clone https://github.com/FatJohn/PureFlac.git
@@ -33,7 +42,7 @@ dotnet test
 Then reference `src/PureFlac/PureFlac.csproj` from your project, or create a local package with
 `dotnet pack src/PureFlac/PureFlac.csproj -c Release`.
 
-Packages published to NuGet will be built only by GitHub Actions (deterministic build, with
+Packages published to NuGet are built only by GitHub Actions (deterministic build, with
 `ContinuousIntegrationBuild` enabled there); a local `dotnet pack` is for your own use only.
 
 ## Usage
@@ -187,4 +196,4 @@ PureFlac 是移植自 dr_flac 的純 C# 串流 FLAC 解碼器，支援 .NET 8 �
   結尾檢查在最後一次 `Read` 才做，之前交出的 PCM 可能屬於之後才判定損壞的串流；STREAMINFO 未記錄總樣本數與
   MD5 時，串流中段整個遺失的 frame 不會報錯。
 - **不支援**：seek、Ogg FLAC、SIMD。
-- **安裝**：尚未發佈到 NuGet，請從原始碼建置；日後發佈的套件只由 GitHub Actions 打包。授權為 MIT。
+- **安裝**：`dotnet add package PureFlac`（[NuGet](https://www.nuget.org/packages/PureFlac)）；NuGet 上的套件只由 GitHub Actions 打包。授權為 MIT。
