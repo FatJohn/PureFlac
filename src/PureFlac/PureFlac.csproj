@@ -13,7 +13,7 @@
 
   <PropertyGroup>
     <PackageId>PureFlac</PackageId>
-    <Version>0.1.0</Version>
+    <Version>1.0.0</Version>
     <Authors>JohnShu</Authors>
     <Description>A pure managed, streaming FLAC decoder for .NET, ported from dr_flac. Reads forward-only from any Stream, never seeks, and produces bit-exact PCM verified against libFLAC.</Description>
     <PackageTags>flac;audio;decoder;pcm;streaming</PackageTags>

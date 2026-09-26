@@ -16,7 +16,7 @@ stream.
 - **Streaming.** Only `Stream.Read` is ever called — never `Seek`, `Position` or `Length`. Reads that return a
   single byte, or that block, are fine. The first PCM is available as soon as the metadata and the first frame
   have arrived.
-- **Bit-exact.** Output matches libFLAC byte for byte on all 36 test fixtures, and the STREAMINFO MD5 and total
+- **Bit-exact.** Output matches libFLAC byte for byte on all 39 test fixtures, and the STREAMINFO MD5 and total
   sample count are checked at the end of the stream.
 - **Strict error reporting.** CRC failures, reserved values, truncation and end-of-stream mismatches throw a
   `FlacDecodeException` with a `FlacDecodeErrorKind`; the decoder never silently skips a damaged frame.
